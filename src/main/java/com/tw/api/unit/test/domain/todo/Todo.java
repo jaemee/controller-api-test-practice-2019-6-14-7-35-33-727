@@ -7,6 +7,10 @@ public class Todo {
     private Boolean completed;
     private Integer order;
 
+    public Todo() {
+
+    }
+
     public Todo(String title, Boolean completed) {
         this.title = title;
         this.completed = completed;
