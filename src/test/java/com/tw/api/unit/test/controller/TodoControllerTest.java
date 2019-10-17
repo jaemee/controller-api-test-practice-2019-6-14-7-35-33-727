@@ -108,5 +108,28 @@ class TodoControllerTest {
         result.andExpect(status().isNotFound());
     }
 
+    @Test
+    void should_return_not_found_updateTodo_when_id_exisiting() throws Exception {
+        todo = new Todo(3, "Test", true, 4);
+        ResultActions result = mvc.perform(patch("/todos/10")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(objectMapper.writeValueAsString(todo)));
+        result.andExpect(status().isNotFound());
+    }
 
+    @Test
+    void should_return_bad_request_updateTodo_when_wrong_parameter() throws Exception {
+        ResultActions result = mvc.perform(patch("/todos/10")
+                .contentType(MediaType.APPLICATION_JSON_VALUE));
+        result.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void should_return_ok_updateTodo_when_deleted() throws Exception {
+        todo = new Todo(3, "Test", true, 4);
+        ResultActions result = mvc.perform(patch("/todos/3")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(objectMapper.writeValueAsString(todo)));
+        result.andExpect(status().isOk());
+    }
 }
