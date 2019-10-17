@@ -90,4 +90,23 @@ class TodoControllerTest {
         result.andExpect(status().isCreated());
     }
 
+    @Test
+    void should_return_of_deleteOneTodo_when_id_existing() throws Exception {
+        todo = new Todo(3, "Test", true, 4);
+        //given
+        Optional<Todo> optionalTodo = Optional.of(todo);
+        when(todoRepository.findById(3)).thenReturn(optionalTodo);
+        //when
+        ResultActions result = mvc.perform(delete("/todos/3"));
+        //then
+        result.andExpect(status().isOk());
+    }
+
+    @Test
+    void should_return_not_found_deleteOneTodo_when_id_not_exist() throws Exception {
+        ResultActions result = mvc.perform(delete("/todos/4"));
+        result.andExpect(status().isNotFound());
+    }
+
+
 }
